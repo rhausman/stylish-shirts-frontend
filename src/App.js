@@ -8,7 +8,7 @@ import { FileForm, ShirtDisplay, ShirtContext } from './Components/ComponentInde
 
 
 function App() {
-  const [resp, setResp] = useState({ Hello: "yeet" })
+  const [resp, setResp] = useState({ name: "empty", img: null, url: "" })
   const value = { resp, setResp }
 
   return (
@@ -25,7 +25,7 @@ function App() {
         <Row>
           <Col>
             <Jumbotron>
-              <div>Result: {resp.Hello}</div>
+              <div>Result: {resp.name}</div>
             </Jumbotron>
           </Col>
         </Row>

@@ -1,6 +1,8 @@
 import { useEffect, useState, useContext } from "react"
 import { Form, Jumbotron, Button } from "react-bootstrap"
 import ShirtContext from "./ShirtContext"
+import axios from "axios"; //for http requests
+//import sharp, { format } from "sharp"; // to resize images
 
 
 
@@ -21,17 +23,14 @@ function FileForm(props) {
             event.preventDefault();
             event.stopPropagation();
         }
+        // get the form data so we can access it
+        const formData = new FormData(event.target),
+            formDataObj = Object.fromEntries(formData.entries());
         setValidated(true);
         //await requestFromApi(setRetrievedValue); // get the api request
-        requestFromApi(setResp) //setRetrievedValue)
+        requestFromApi(setResp, formDataObj["style"], formDataObj["image"]) //setRetrievedValue)
         //console.log(retrievedValue)
-        /*
-        return new Promise(resolve => {
-            setTimeout(() => { requestFromApi(setRetrievedValue); console.log(retrievedValue); resolve(); }
-                , 1000);
 
-        })
-        */
     };
 
     return (
@@ -39,12 +38,12 @@ function FileForm(props) {
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group id="styleFormGroup" controlId="inputForm.style">
                     <Form.Label>Choose a Style!</Form.Label>
-                    <Form.Control as="select" size="lg">
+                    <Form.Control as="select" size="lg" name="style">
                         {stylesList.map((s) => <option key={s}>{s}</option>)}
                     </Form.Control>
                 </Form.Group>
                 <Form.Group id="fileInputGroup" controlId="inputForm.file" size="lg">
-                    <Form.File id="inputFile" label="Upload Image" />
+                    <Form.File id="inputFile" label="Upload Image" name="image" />
                 </Form.Group>
                 <Button type="submit">Create a Shirt!</Button>
             </Form>
@@ -54,15 +53,41 @@ function FileForm(props) {
 }
 
 async function getAvailableStyles(setter, errorSetter) {
-    const ls = await fetch("http://localhost:8000/test_response")
+    const ls = await fetch("http://localhost:8000/get_available_styles")
     ls.json()
         .then(ls => setter(ls))
         .catch(err => errorSetter(err))
 }
 
-async function requestFromApi(setter) {
-    const res = await fetch("http://localhost:8000/")
-    res.json()
+async function requestFromApi(setter, style, image) {
+    // make the request
+    let form_data = new FormData();
+    // config the headers and include the image
+    let config = {
+        headers: {
+            'content-type': 'multipart/form-data',
+        }
+    }
+    // send the file with the appropriate key name so it is parsed
+    form_data.append('file', image) //, image.name);
+    //form_data.append("style", style)
+    // form_data.append('content', this.state.content);
+    let url = "http://localhost:8000/style_image/" + style; // bas url
+    axios.post(url, form_data, config)
+        //.then(res => console.log(res))
+        //.then(res => res.data)
+        // .then(data => console.log(data))
+        .then(res => res.data)
+        .then(data => {
+            // newimg is resized
+            //var newImg = new Buffer(data, 'base64');
+            //sharp(newImg)
+            //    .resize(100, 100)
+            //    .toBuffer()
+            //.toString("base64")
+            return { name: data.name, img: data.img, url: "data:image/png;base64," + data.img }
+        })
+        //.then(obj => { return { name: obj.name, data: obj.data, url: URL.createObjectURL(obj.data) } })
         .then(res => setter(res))
         .catch(err => console.log(err))
 }
