@@ -22,13 +22,7 @@ function App() {
             <ShirtDisplay />
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Jumbotron>
-              <div>Result: {resp.name}</div>
-            </Jumbotron>
-          </Col>
-        </Row>
+
       </ShirtContext.Provider>
     </div >
   );
