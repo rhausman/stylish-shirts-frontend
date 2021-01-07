@@ -1,8 +1,9 @@
 import React, { useContext, StyleSheet } from "react";
-import { Jumbotron, Button } from "react-bootstrap"
+import { Jumbotron } from "react-bootstrap"
 import ShirtContext from "./ShirtContext"
 import { PhotoContainer } from "./ComponentIndex"
-import "./../Styles/OverlapStyles.css"
+import "./../Styles/OverlapStyles.css" //to overlap shirts
+import "./../Styles/DisplayStyles.css" //general display styles
 
 
 function ShirtDisplay(props) {
@@ -14,8 +15,8 @@ function ShirtDisplay(props) {
         console.log(resp["image"].name())
     }
     return (
-        <Jumbotron>
-            Your image with {resp["name"]} style:
+        <Jumbotron className="display-panel">
+            4. Preview
             <hr />
 
 

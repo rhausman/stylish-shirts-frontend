@@ -4,6 +4,8 @@ import ShirtContext from "./ShirtContext"
 import axios from "axios"; //for http requests
 //import sharp, { format } from "sharp"; // to resize images
 
+import "./../Styles/DisplayStyles.css" //general display styles
+
 
 
 function FileForm(props) {
@@ -34,18 +36,20 @@ function FileForm(props) {
     };
 
     return (
-        <Jumbotron >
+        <Jumbotron className="display-panel">
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group id="styleFormGroup" controlId="inputForm.style">
-                    <Form.Label>Choose a Style!</Form.Label>
+                    <Form.Label>1. Choose a Style!</Form.Label>
                     <Form.Control as="select" size="lg" name="style">
                         {stylesList.map((s) => <option key={s}>{s}</option>)}
                     </Form.Control>
                 </Form.Group>
+                <hr />
                 <Form.Group id="fileInputGroup" controlId="inputForm.file" size="lg">
-                    <Form.File id="inputFile" label="Upload Image" name="image" />
+                    <Form.File id="inputFile" label="2. Upload Image" name="image" />
                 </Form.Group>
-                <Button type="submit">Create a Shirt!</Button>
+                <hr />
+                <Button type="submit">3. Create a Shirt!</Button>
             </Form>
 
         </ Jumbotron>
