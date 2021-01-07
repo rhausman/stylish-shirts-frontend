@@ -3,7 +3,7 @@ import { Row, Col, Navbar, Nav, Container } from "react-bootstrap";
 import './Styles/App.css';
 
 // custom components
-import { FileForm, ShirtDisplay, ShirtContext } from './Components/ComponentIndex'
+import { FileForm, ShirtDisplay, ShirtContext, OrderForm } from './Components/ComponentIndex'
 
 
 
@@ -34,7 +34,7 @@ function App() {
         <Row>
           <Col>
             <FileForm responseSetter={setResp} />
-
+            <OrderForm />
           </Col>
           <Col>
             <ShirtDisplay />

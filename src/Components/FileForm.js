@@ -13,7 +13,6 @@ function FileForm(props) {
     //const { setResp } = props; // this is used to set the App state when we get response
     //const { stylesList = ["starry Night", "escher"] } = props;
     const [validated, setValidated] = useState(false);
-    const [retrievedValue, setRetrievedValue] = useState({});
     const [hasError, setErrors] = useState(false);
     const [stylesList, setStylesList] = useState([]);
     //on load, fetch API data
@@ -29,9 +28,8 @@ function FileForm(props) {
         const formData = new FormData(event.target),
             formDataObj = Object.fromEntries(formData.entries());
         setValidated(true);
-        //await requestFromApi(setRetrievedValue); // get the api request
-        requestFromApi(setResp, formDataObj["style"], formDataObj["image"]) //setRetrievedValue)
-        //console.log(retrievedValue)
+
+        requestFromApi(setResp, formDataObj["style"], formDataObj["image"])
 
     };
 
